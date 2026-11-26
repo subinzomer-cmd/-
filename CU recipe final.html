@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#652D90">
+<title>CU 꿀조합 레시피 연구소</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+:root{--pu:#652D90;--pd:#461C68;--gr:#8DB91F;--bg:#F5EEFA;--card:#fff;--tx:#2A1B3D;--mut:#7C7090;--ln:#E8DCF3;--chip:#EFE8F6;--hot:#E0431F;--warn:#FFE9B0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17101f;--card:#241a31;--tx:#f3ecfa;--mut:#a698b8;--ln:#3a2c4b;--chip:#33264a;--warn:#4a3b12}}
+:root[data-theme="dark"]{--bg:#17101f;--card:#241a31;--tx:#f3ecfa;--mut:#a698b8;--ln:#3a2c4b;--chip:#33264a;--warn:#4a3b12}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:#2B1D3A;color:var(--tx);font-family:"Jua","Noto Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;letter-spacing:0;display:flex;justify-content:center;align-items:center;-webkit-tap-highlight-color:transparent}
+.phone{width:100%;max-width:410px;height:min(860px,calc(100vh - 24px));background:var(--bg);border-radius:44px;border:9px solid #17101f;display:flex;flex-direction:column;overflow:hidden;position:relative}
+@media (max-width:430px){.phone{height:100dvh;max-width:none;border:0;border-radius:0}}
+header{background:var(--pu);color:#fff;padding:14px 16px 12px;flex:none;border-bottom:4px solid var(--gr)}
+header b{font-size:1.08rem;display:block}
+header small{opacity:.85;font-size:.75rem}
+.sub{display:flex;background:var(--card);border-bottom:1px solid var(--ln);flex:none;overflow-x:auto;scrollbar-width:none}
+.sub button{flex:1;min-width:max-content;border:0;background:none;color:var(--mut);font:600 .86rem inherit;font-family:inherit;padding:12px 12px;min-height:44px;position:relative;cursor:pointer}
+.sub button.on{color:var(--pu)}
+.sub button.on:after{content:"";position:absolute;left:18%;right:18%;bottom:0;height:3px;border-radius:3px 3px 0 0;background:var(--pu)}
+@media (prefers-color-scheme:dark){.sub button.on,.tb.on{color:#d9b8ff}.sub button.on:after{background:#d9b8ff}}
+main{flex:1;overflow-y:auto;padding:12px 12px 20px;overscroll-behavior:contain}
+.tabs{display:flex;background:var(--card);border-top:1px solid var(--ln);padding:6px 4px calc(8px + env(safe-area-inset-bottom,0px));flex:none}
+.tb{flex:1;border:0;background:none;color:var(--mut);font:600 .66rem inherit;font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:1px;min-height:44px;cursor:pointer}
+.tb i{font-style:normal;font-size:1.25rem;width:42px;border-radius:14px;line-height:1.5}
+.tb.on{color:var(--pu)}.tb.on i{background:var(--chip)}
+.card{background:var(--card);border-radius:18px;padding:14px;margin-bottom:10px;box-shadow:0 1px 2px rgba(40,20,60,.06),0 6px 18px rgba(40,20,60,.06)}
+.card.sel{box-shadow:inset 0 0 0 2px var(--gr)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+.chip{border:0;background:var(--chip);color:var(--tx);border-radius:18px;padding:7px 13px;font:600 .8rem inherit;font-family:inherit;min-height:34px;cursor:pointer}
+.chip.on{background:var(--pu);color:#fff}
+.btn{border:0;background:var(--pu);color:#fff;border-radius:14px;padding:11px 16px;font:700 .88rem inherit;font-family:inherit;min-height:44px;cursor:pointer}
+.btn.soft{background:var(--chip);color:var(--pu)}
+@media (prefers-color-scheme:dark){.btn.soft{color:#d9b8ff}}
+.btn:disabled{opacity:.4}
+.btn:active,.chip:active{transform:scale(.96)}
+.it{display:inline-block;background:var(--chip);border-radius:9px;padding:3px 8px;margin:2px 2px 0 0;font-size:.74rem;font-weight:600}
+.it.x{text-decoration:line-through;color:var(--hot)}
+.pr{color:var(--pu);font-weight:800}
+@media (prefers-color-scheme:dark){.pr{color:#d9b8ff}}
+.note{color:var(--mut);font-size:.75rem}
+.pill{display:inline-block;background:#E8F3C8;color:#3d5410;border-radius:9px;padding:2px 8px;font-size:.7rem;font-weight:700}
+.bar{height:8px;background:var(--ln);border-radius:9px;overflow:hidden;margin:5px 0}
+.bar i{display:block;height:100%;background:var(--gr);border-radius:9px;transition:width .3s}
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.slot{border:2px dashed var(--ln);border-radius:16px;padding:10px;min-height:84px;background:var(--card)}
+.slot.f{border:2px solid var(--gr)}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.stat div{background:var(--bg);border-radius:12px;padding:8px 10px;font-size:.78rem}
+.stat b{display:block;font-size:1rem}
+input[type=text],input[type=range]{width:100%}
+input[type=text]{background:var(--chip);color:var(--tx);border:0;border-radius:14px;padding:11px 14px;font:16px inherit;font-family:inherit}
+input[type=range]{accent-color:var(--pu)}
+h4{margin:6px 0 8px;font-size:.95rem}
+.toast{position:absolute;left:50%;bottom:84px;transform:translate(-50%,16px);background:#2A1B3D;color:#fff;padding:10px 16px;border-radius:22px;font-size:.82rem;opacity:0;pointer-events:none;transition:.25s;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.fav{border:0;background:none;font-size:1.1rem;cursor:pointer;min-width:36px;min-height:36px;filter:grayscale(1);opacity:.45}
+.fav.on{filter:none;opacity:1}
+#login{position:absolute;inset:0;z-index:50;background:linear-gradient(160deg,#652D90,#461C68);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:28px 26px calc(28px + env(safe-area-inset-bottom,0px));gap:10px}
+#login h1{margin:6px 0 0;font-size:1.7rem;line-height:1.25}
+#login p{margin:0 0 10px;opacity:.85;font-size:.88rem}
+#login .logo{font-size:3.2rem}
+#login .btn{background:#8DB91F;color:#1B2B00;width:100%}
+#login .ghost{background:none;color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+#lerr{min-height:1.2em;font-size:.8rem;color:#FFD6C9}
+*{font-synthesis:none}
+main{background-image:radial-gradient(var(--ln) 1.4px,transparent 1.4px);background-size:20px 20px}
+.cub{display:inline-block;background:#9CCB3B;color:#2B0F47;font-size:.85rem;padding:1px 9px;border-radius:14px;transform:rotate(-4deg);box-shadow:0 2px 0 #6F9420;margin-right:4px}
+.card{border-radius:22px}
+.btn{box-shadow:0 3px 0 #461C68;font-size:.92rem}
+.btn.soft{box-shadow:0 3px 0 #D9C4EE}
+#login .btn{box-shadow:0 3px 0 #6F9420}
+.chip{box-shadow:0 2px 0 rgba(101,45,144,.18);font-size:.85rem}
+.chip.on{box-shadow:0 2px 0 #461C68}
+.sub button{font-size:.92rem}.tb{font-size:.7rem}
+.medal{font-size:1.3rem;margin-right:4px}
+.hint{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;background:#FFF9E6;color:#4a3d00;border:2px dashed #9CCB3B;border-radius:16px;padding:9px 8px 9px 12px;margin-bottom:10px;font-size:.84rem;line-height:1.4}
+.hint button{border:0;background:none;color:inherit;font-size:1rem;min-width:30px;min-height:30px;cursor:pointer}
+@media (prefers-color-scheme:dark){.hint{background:#3a3318;color:#ffe9a0}}
+.guide{border:2px solid var(--gr)}
+.gs{display:flex;align-items:center;gap:10px;margin:9px 0;opacity:.55}
+.gs.now{opacity:1}.gs.ok{opacity:.8}
+.gs span.t{flex:1;font-size:.9rem}
+.gn{width:28px;height:28px;border-radius:50%;background:var(--chip);display:flex;align-items:center;justify-content:center;flex:none;font-size:.85rem}
+.gs.ok .gn{background:#9CCB3B;color:#1B2B00}.gs.now .gn{background:var(--pu);color:#fff}
+.pulse{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+#tour{position:absolute;inset:0;z-index:70;background:rgba(20,10,30,.72);display:none;align-items:center;justify-content:center;padding:22px}
+.tbox{background:var(--card);border-radius:28px;padding:22px 20px 14px;text-align:center;width:100%;display:flex;flex-direction:column;align-items:center;gap:6px}
+.tbox h3{margin:0;font-size:1.3rem;font-weight:400}.tbox p{margin:0 0 6px;color:var(--mut);font-size:.92rem;line-height:1.5}
+.tbig{font-size:2.4rem;line-height:1}.tstep{color:var(--pu);font-size:.8rem}
+.dots{display:flex;gap:6px;margin:4px 0 8px}.dots i{width:8px;height:8px;border-radius:50%;background:var(--ln)}.dots i.on{background:var(--pu);width:22px;border-radius:5px}
+.skip{border:0;background:none;color:var(--mut);font-family:inherit;font-size:.82rem;min-height:40px;cursor:pointer}
+.tbox .btn{width:100%}
+.nk{font-size:.74rem;color:var(--mut);margin-bottom:3px}
+.mdn{margin-top:7px;font-size:.68rem;color:#5b4a00;background:#FFF3C4;border-radius:10px;padding:4px 9px;display:inline-block}
+@media (prefers-color-scheme:dark){.mdn{background:#4a3b12;color:#ffe9a0}}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:6px;background:linear-gradient(135deg,#652D90 0%,#8E4BC4 60%,#8DB91F 135%);color:#fff;border-radius:26px;padding:18px 16px 18px 20px;box-shadow:0 4px 0 #461C68;margin-bottom:12px;overflow:hidden}
+.minis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.mini{border:0;background:var(--card);color:var(--tx);border-radius:18px;padding:10px 4px;text-align:center;font:inherit;font-family:inherit;font-size:.74rem;color:var(--mut);box-shadow:0 2px 0 var(--ln);min-height:56px;cursor:pointer}
+.mini b{display:block;font-size:1.1rem;color:var(--pu);font-weight:400}
+@media (prefers-color-scheme:dark){.mini b{color:#d9b8ff}}
+.tg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.tile{border:0;background:var(--card);color:var(--tx);border-radius:22px;padding:14px;text-align:left;font-family:inherit;display:flex;flex-direction:column;gap:2px;min-height:112px;cursor:pointer;box-shadow:0 3px 0 var(--ln)}
+.tile:active{transform:translateY(2px)}
+.tile .bd{width:46px;height:46px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:6px;color:#2A1B3D}
+.tile b{font-size:1rem;font-weight:400}
+.tile small{color:var(--mut);font-size:.72rem}
+.hot{background:linear-gradient(135deg,#FFF6D6,#F3F9DC);color:#2A1B3D;border:2px solid #9CCB3B}
+.hot .note{color:#5d5a4a}
+.sec{display:flex;align-items:center;justify-content:space-between;margin:14px 2px 8px;font-size:1.02rem}
+#login{justify-content:flex-start;overflow-y:auto;gap:8px;padding-top:calc(18px + env(safe-area-inset-top,0px));background:linear-gradient(180deg,#9B58CF 0%,#652D90 42%,#461C68 100%)}
+#login>*{flex:none}
+#login h1,#login p{text-align:center}
+#login h1{font-size:1.9rem;text-shadow:0 3px 0 rgba(0,0,0,.18)}
+#login input{background:#fff;color:#2A1B3D;border-radius:16px;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+#login .scene{width:100%;height:auto;display:block}
+.hop{animation:hop 1.6s ease-in-out infinite}
+.wave{animation:wave .9s ease-in-out infinite;transform-origin:52px 42px}
+.tw{animation:tw 1.8s ease-in-out infinite}.tw:nth-of-type(2n){animation-delay:.6s}
+@keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes wave{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(14deg)}}
+@keyframes tw{0%,100%{opacity:.25}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.hop,.wave,.tw{animation:none}}
+.gauge{font-size:.72rem;color:var(--mut);display:flex;justify-content:space-between}
+.bar.hot i{background:linear-gradient(90deg,var(--gr),#FF5A36)}
+.who{display:flex;align-items:center;gap:6px;font-size:.75rem}
+.who button{border:1px solid rgba(255,255,255,.5);background:none;color:#fff;border-radius:12px;padding:4px 10px;font:600 .72rem inherit;font-family:inherit;min-height:30px;cursor:pointer}
+
+.plate{position:relative;width:230px;height:230px;margin:6px auto 4px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0%,#f4eefa 62%,#e3d6f0 100%);box-shadow:0 8px 0 #cdbbe0,0 16px 22px rgba(40,20,60,.22)}
+.plate .rim{position:absolute;inset:16px;border-radius:50%;border:2px dashed #d9c9ea}
+.pf{position:absolute;transform:translate(-50%,-50%);font-size:58px;line-height:1;filter:drop-shadow(0 4px 2px rgba(0,0,0,.18))}
+.zzan{text-align:center;font-size:1.2rem;color:var(--pu);margin-bottom:2px}
+@media (prefers-color-scheme:dark){.zzan{color:#d9b8ff}}
+.pnames{text-align:center;margin:6px 0 10px}
+.res{border-top:2px dashed var(--ln);padding-top:10px}
+.fresh .plate{animation:plin .55s cubic-bezier(.2,1.5,.4,1) both}
+.fresh .pf{animation:pfin .6s cubic-bezier(.2,1.6,.4,1) both}
+.fresh .zzan{animation:zz .6s ease-out both}
+.fresh .pnames,.fresh .res{animation:rise .6s ease-out 1s both}
+@keyframes plin{0%{transform:scale(.2) rotate(-40deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes pfin{0%{transform:translate(-50%,-260%) scale(.3);opacity:0}100%{transform:translate(-50%,-50%) scale(1);opacity:1}}
+@keyframes zz{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.25)}100%{transform:scale(1);opacity:1}}
+@keyframes rise{0%{transform:translateY(14px);opacity:0}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.fresh .plate,.fresh .pf,.fresh .zzan,.fresh .pnames,.fresh .res{animation:none}}
+
+.ico{vertical-align:-5px;margin-right:2px;flex:none}
+.slot .ico{display:block;margin:2px 0 3px}
+.dishwrap{text-align:center;margin:2px 0}
+.dish{width:100%;max-width:340px;height:auto;overflow:visible;filter:drop-shadow(0 6px 8px rgba(40,20,60,.15))}
+.fresh .dish{animation:serve .9s cubic-bezier(.2,1.2,.4,1) both}
+@keyframes serve{0%{transform:translateY(-60px) scale(.6) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
+.stm{animation:stm 2.4s ease-in-out infinite}
+@keyframes stm{0%{opacity:0;transform:translateY(8px)}50%{opacity:.7}100%{opacity:0;transform:translateY(-14px)}}
+@media (prefers-reduced-motion:reduce){.fresh .dish,.stm{animation:none}}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header class="row"><div><b><span class="cub">CU</span> 꿀조합 레시피 연구소</b><small>재료를 담고, 비율을 연구하고, 같이 나눠요</small></div><div class="who"><button id="who" onclick="go(5)"></button><button onclick="logout()">로그아웃</button></div></header>
+  <nav class="sub" id="sub"></nav>
+  <main id="app"></main>
+  <nav class="tabs" id="tabs"></nav>
+  <div class="toast" id="toast"></div>
+  <div id="login">
+    <svg class="scene" viewBox="0 0 340 212" role="img" aria-label="CU 편의점 앞에서 손을 흔드는 꿀방울 연구원 캐릭터">
+      <text class="tw" x="22" y="30" font-size="16" fill="#9CCB3B">✦</text><text class="tw" x="188" y="22" font-size="11" fill="#fff">✦</text><text class="tw" x="96" y="16" font-size="13" fill="#FFE680">✦</text><text class="tw" x="324" y="60" font-size="12" fill="#9CCB3B">✦</text>
+      <ellipse cx="58" cy="26" rx="26" ry="8" fill="#fff" opacity=".25"/><ellipse cx="80" cy="20" rx="16" ry="7" fill="#fff" opacity=".25"/>
+      <rect x="24" y="70" width="292" height="112" rx="8" fill="#fff"/>
+      <rect x="16" y="44" width="308" height="40" rx="10" fill="#652D90" stroke="#461C68" stroke-width="2"/>
+      <rect x="16" y="84" width="308" height="7" fill="#9CCB3B"/>
+      <text x="170" y="75" text-anchor="middle" font-size="30" font-weight="900" fill="#fff" font-family="Jua,sans-serif" letter-spacing="2">CU</text>
+      <text x="300" y="68" text-anchor="end" font-size="11" fill="#9CCB3B" font-family="Jua,sans-serif">24h</text>
+      <rect x="36" y="102" width="94" height="62" rx="5" fill="#E6F2FF" stroke="#652D90" stroke-width="2"/>
+      <line x1="36" y1="123" x2="130" y2="123" stroke="#B9A9CC" stroke-width="2"/><line x1="36" y1="144" x2="130" y2="144" stroke="#B9A9CC" stroke-width="2"/>
+      <rect x="44" y="110" width="12" height="12" rx="3" fill="#FF8A65"/><rect x="62" y="110" width="12" height="12" rx="3" fill="#FFD54F"/><rect x="80" y="110" width="12" height="12" rx="3" fill="#9CCB3B"/><rect x="98" y="110" width="12" height="12" rx="3" fill="#8E4BC4"/>
+      <rect x="44" y="131" width="12" height="12" rx="3" fill="#8E4BC4"/><rect x="62" y="131" width="12" height="12" rx="3" fill="#FF8A65"/><rect x="80" y="131" width="12" height="12" rx="3" fill="#FFD54F"/><rect x="98" y="131" width="12" height="12" rx="3" fill="#9CCB3B"/>
+      <rect x="140" y="102" width="58" height="80" rx="5" fill="#CFE6FF" stroke="#652D90" stroke-width="2.5"/><line x1="169" y1="102" x2="169" y2="182" stroke="#652D90" stroke-width="2"/>
+      <rect x="162" y="136" width="3" height="14" rx="1.5" fill="#652D90"/><rect x="173" y="136" width="3" height="14" rx="1.5" fill="#652D90"/>
+      <rect x="151" y="108" width="36" height="13" rx="6.5" fill="#9CCB3B"/><text x="169" y="118" text-anchor="middle" font-size="9" fill="#1B2B00" font-family="Jua,sans-serif">OPEN</text>
+      <rect x="208" y="102" width="40" height="62" rx="5" fill="#E6F2FF" stroke="#652D90" stroke-width="2"/>
+      <rect x="0" y="182" width="340" height="30" fill="#B9A9CC"/><rect x="0" y="196" width="340" height="16" fill="#9A88B3"/>
+      <g transform="translate(212,58) scale(2.15)"><g class="hop">
+        <ellipse cx="32" cy="62" rx="15" ry="3" fill="#000" opacity=".18"/>
+        <path d="M32 5C29 14 12 25 12 40a20 20 0 0040 0C52 25 35 14 32 5z" fill="#9CCB3B" stroke="#6F9420" stroke-width="2"/>
+        <path d="M32 5q3-6 9-4q-2 6-9 4z" fill="#6F9420"/>
+        <path d="M20 31c1-4 4-7 7-9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+        <ellipse cx="25" cy="41" rx="3" ry="3.6" fill="#2B0F47"/><ellipse cx="39" cy="41" rx="3" ry="3.6" fill="#2B0F47"/><circle cx="26" cy="39.6" r="1.1" fill="#fff"/><circle cx="40" cy="39.6" r="1.1" fill="#fff"/>
+        <ellipse cx="19" cy="48" rx="3.4" ry="2" fill="#FF8FB1" opacity=".8"/><ellipse cx="45" cy="48" rx="3.4" ry="2" fill="#FF8FB1" opacity=".8"/>
+        <path d="M28 48q4 4.5 8 0" fill="none" stroke="#2B0F47" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 46q-7 0-9-7" fill="none" stroke="#6F9420" stroke-width="3.2" stroke-linecap="round"/>
+        <g class="wave"><path d="M52 42q7-3 8-12" fill="none" stroke="#6F9420" stroke-width="3.2" stroke-linecap="round"/><circle cx="60" cy="29" r="3" fill="#9CCB3B" stroke="#6F9420" stroke-width="1.5"/></g>
+      </g></g>
+      <g><rect x="214" y="6" width="108" height="30" rx="15" fill="#fff"/><path d="M268 35l8 0l-3 8z" fill="#fff"/><text x="268" y="26" text-anchor="middle" font-size="14" fill="#652D90" font-family="Jua,sans-serif">어서 와요! 🍯</text></g>
+    </svg>
+    <h1>CU <span style="color:#9CCB3B">꿀조합</span><br>레시피 연구소</h1>
+    <p>로그인하고 나만의 꿀조합을 저장해 보세요</p>
+    <input type="text" id="ln" placeholder="닉네임 (2~12자)" maxlength="12" autocomplete="nickname">
+    <input type="text" id="le" inputmode="email" placeholder="이메일" autocomplete="email">
+    <div id="lerr" role="alert"></div>
+    <button class="btn" onclick="doLogin()">시작하기</button>
+    <button class="btn ghost" onclick="guest()">로그인 없이 둘러보기</button>
+    <p class="note" style="color:#fff;opacity:.7;margin-top:6px">이 기기의 브라우저에만 저장되며, 비밀번호는 받지 않아요.</p>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const won=n=>Math.round(n).toLocaleString("ko-KR")+"원";
+/* 재료: [id, 이름, 이모지, 분류, 슬롯, 가격, kcal, 단백질g, 나트륨mg, 행사, 포만, 조리초, 매운, 단짠, 대체] */
+const RAW=[
+["bul","불닭볶음면 컵","🌶️","면류","base",1900,530,10,1860,"1+1",52,90,9,6,"gan"],
+["gan","간짬뽕 컵","🍜","면류","base",1800,480,9,1750,"",55,90,6,6,"bul"],
+["shin","신라면 컵","🍜","면류","base",1400,410,8,1480,"",50,90,5,5,"gan"],
+["rice","햇반 컵반","🍚","밥·간편식","base",1900,310,5,30,"",40,40,0,2,"gan"],
+["salad","닭가슴살 샐러드","🥗","단백질·건강식","base",4500,250,20,450,"",35,0,0,4,"rice"],
+["ched","체다치즈 슬라이스","🧀","치즈·토핑","catalyst",800,60,4,210,"2+1",5,10,0,6,"str"],
+["str","스트링치즈","🧀","치즈·토핑","catalyst",1500,80,6,180,"",6,0,0,4,"ched"],
+["hot","핫소스","🌶️","치즈·토핑","catalyst",700,10,0,260,"",2,0,7,3,"mayo"],
+["mayo","마요네즈 소스","🥫","치즈·토핑","catalyst",600,90,0,110,"",3,0,0,6,"ched"],
+["tuna","참치마요 삼각김밥","🍙","밥·간편식","infusion",1100,190,5,390,"1+1",25,30,1,8,"rice"],
+["milk","우유 200ml","🥛","음료·스낵","infusion",1200,130,6,100,"",28,0,0,3,"prot"],
+["prot","프로틴 음료","🥤","음료·스낵","infusion",2200,120,20,150,"",28,0,0,2,"milk"],
+["cola","콜라 250ml","🥤","음료·스낵","infusion",1700,105,0,15,"",28,0,0,3,"milk"],
+["egg","반숙란","🥚","단백질·건강식","garnish",1500,75,7,70,"",10,0,0,3,"sau"],
+["sau","후랑크 소시지","🌭","치즈·토핑","garnish",1800,150,7,620,"2+1",14,20,1,7,"egg"],
+["snack","꿀꽈배기","🥨","음료·스낵","garnish",1700,240,3,230,"",8,0,0,8,"egg"],
+["chest","닭가슴살 (소)","🍗","단백질·건강식","garnish",2300,110,22,360,"",10,0,0,3,"egg"],
+["banana","바나나","🍌","단백질·건강식","garnish",1500,100,1,1,"",8,0,0,6,"egg"]
+];
+const I={};RAW.forEach(r=>I[r[0]]={id:r[0],n:r[1],e:r[2],cat:r[3],slot:r[4],p:r[5],k:r[6],pro:r[7],na:r[8],promo:r[9],fill:r[10],heat:r[11],sp:r[12],ss:r[13],alt:r[14]});
+const CATS=["전체","면류","밥·간편식","단백질·건강식","치즈·토핑","음료·스낵"];
+const SIT=["전체","시험","야식","해장","다이어트","불금","매운맛"];
+const BASE=[
+{id:"r1",n:"불닭 치즈 폭탄",it:["bul","ched","tuna","egg"],tg:["야식","매운맛"],v:12480,d:"치즈로 매운맛을 잡는 정석"},
+{id:"r2",n:"시험기간 단백질 짬뽕",it:["gan","str","prot","egg"],tg:["시험","다이어트"],v:6230,d:"카페인 대신 단백질로 버티기"},
+{id:"r3",n:"퇴근길 소시지 짬뽕",it:["gan","ched","sau","snack"],tg:["불금","야식"],v:8120,d:"안주로도 좋은 든든 구성"},
+{id:"r4",n:"갓성비 삼김 컵밥",it:["rice","ched","tuna","sau"],tg:["시험","야식"],v:3410,d:"5천 원대로 한 끼"},
+{id:"r5",n:"다이어트 고단백 컵밥",it:["rice","str","prot","egg"],tg:["다이어트"],v:4870,d:"단백질 위주 가벼운 한 끼"},
+{id:"r6",n:"불금 매운 안주 세트",it:["bul","str","milk","sau"],tg:["불금","매운맛"],v:9990,d:"우유로 중화하며 즐기는 맛"},
+{id:"r7",n:"단백질 클린팩",it:["salad","chest","prot","banana"],tg:["다이어트"],v:5200,d:"한 끼 단백질 50g 가까이"},
+{id:"r8",n:"속풀이 구원투수",it:["rice","egg","milk"],tg:["해장"],v:2900,d:"자극 없이 든든하게"}
+];
+const ST=["CU 수원역점 · 120m","CU 아주대점 · 480m","CU 영통역점 · 1.1km"];
+const META={r1:["불닭러버",[10,20]],r2:["새벽도서관",[10,20]],r3:["퇴근길1호",[20,30]],r4:["가성비왕",[10]],r5:["헬창짬뽕",[20,30]],r6:["금요일밤",[30,20]],r7:["클린연구원",[20,30]],r8:["속풀이장인",[30,20]]};
+BASE.forEach(r=>{r.nick=META[r.id][0];r.ages=META[r.id][1]});
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const S={user:ld("cuUser",null),seenB:ld("cuSeen",0),hintOff:ld("cuHint",0),pocket:true,bud:6000,tab:0,sub:0,sit:"전체",cat:"전체",promo:false,slots:ld("cuSlots",[null,null,null,null]),fav:ld("cuFav",[]),mine:ld("cuMine",[]),voted:[],
+ posts:ld("cuPosts",[{u:"하준",t:"시험기간 야식 실험 대성공입니다 ㅎㅎ"},{u:"서연",t:"가성비 완벽한 조합이네요 추천!"}]),sp:3,cur:"r1",out:{},bt:null};
+const R=()=>BASE.concat(S.mine);
+const rec=id=>R().find(r=>r.id===id)||BASE[0];
+const eff=i=>Math.round((i.promo==="1+1"?i.p/2:i.promo==="2+1"?i.p*2/3:i.p)/10)*10;
+const tot=ids=>{const a=ids.filter(Boolean).map(k=>I[k]),s=f=>a.reduce((x,i)=>x+f(i),0);return{n:a.length,list:s(i=>i.p),pay:s(eff),k:s(i=>i.k),pro:s(i=>i.pro),na:s(i=>i.na),fill:s(i=>i.fill),heat:s(i=>i.heat)}};
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("on"),1800)}
+const save=()=>{sv("cuSlots",S.slots);sv("cuFav",S.fav);sv("cuMine",S.mine);sv("cuPosts",S.posts)};
+
+const TABS=[["🏠","홈",["연구소 로비","가성비 공식"]],["🛒","재료",["인벤토리"]],["🧪","작업대",["조합 설계","가격 분석","절약 계산"]],["🏆","광장",["트렌드","조합배틀","연구후기"]],["📍","매장",["재고 탐사","품절대체"]],["👤","마이",["내 정보","내 조합","찜 목록"]]];
+function nav(){
+  $("tabs").innerHTML=TABS.map((t,i)=>`<button class="tb ${i===S.tab?"on":""}" onclick="go(${i})"><i>${t[0]}</i>${t[1]}</button>`).join("");
+  const s=TABS[S.tab][2];
+  $("sub").style.display=s.length>1?"":"none";
+  $("sub").innerHTML=s.map((l,i)=>`<button class="${i===S.sub?"on":""}" onclick="S.sub=${i};draw()">${l}</button>`).join("");
+}
+function go(i,j){S.tab=i;S.sub=j||0;draw();$("app").scrollTop=0}
+function draw(){nav();$("app").innerHTML=hintV()+VIEW[S.tab][S.sub]()}
+
+const items=a=>a.map(k=>`<span class="it">${ico(k,18)} ${I[k].n}</span>`).join("");
+function card(r){
+  const t=tot(r.it),f=S.fav.includes(r.id);
+  return `<div class="card ${r.id===S.cur?"sel":""}">${nk(r)}<div class="row"><b>${r.n}</b><span class="pr">${won(t.pay)}</span></div>
+  <div>${items(r.it)}</div><div class="note" style="margin:4px 0">${r.d||""} · ${t.k}kcal · 단백질 ${t.pro}g</div>
+  <div class="row"><span class="note">👍 ${r.v.toLocaleString()}${(r.tg||[]).map(x=>` · #${x}`).join("")}</span>
+  <span><button class="fav ${f?"on":""}" aria-label="찜" onclick="fv('${r.id}')">❤️</button><button class="btn soft" onclick="remix('${r.id}')">작업대로</button></span></div>${mdNote(r)}</div>`;
+}
+function fv(id){const i=S.fav.indexOf(id);i<0?S.fav.push(id):S.fav.splice(i,1);save();draw();toast(i<0?"찜했어요 ❤️":"찜을 해제했어요")}
+function remix(id){S.cur=id;S.slots=[0,1,2,3].map(i=>rec(id).it[i]||null);save();go(2);toast("작업대에 담았어요")}
+
+function place(id){
+  const s=S.slots,at=s.indexOf(id);
+  if(at>=0){s[at]=null;toast(I[id].n+" 뺐어요")}
+  else{const e=s.indexOf(null);if(e<0){toast("슬롯 4개가 모두 찼어요");return}s[e]=id;toast(I[id].n+" → 슬롯 "+(e+1)+"번에 쏙!")}
+  save();draw();
+}
+function curIds(){const a=S.slots.filter(Boolean);return a.length?a:rec(S.cur).it}
+
+const VIEW=[
+[()=>{
+  const l=R().filter(r=>S.sit==="전체"||(r.tg||[]).includes(S.sit)),fv=R().filter(r=>S.fav.includes(r.id));
+  return `<div class="card" style="background:linear-gradient(135deg,#652D90,#8DB91F);color:#fff"><b style="font-size:1.1rem">오늘은 어떤 상황이세요?</b><div class="note" style="color:#fff;opacity:.9">상황에 맞는 꿀조합을 처방해 드려요</div></div>
+  <div class="chips">${SIT.map(s=>`<button class="chip ${s===S.sit?"on":""}" onclick="S.sit='${s}';draw()">${s}</button>`).join("")}</div>
+  ${fv.length?`<h4>❤️ 내가 찜한 조합</h4><div class="chips">${fv.map(r=>`<button class="chip" onclick="remix('${r.id}')">${r.n}</button>`).join("")}</div>`:""}
+  <h4>추천 조합</h4>${l.map(card).join("")||'<p class="note">해당 상황의 조합이 아직 없어요.</p>'}`;
+}],
+[()=>{
+  const l=Object.values(I).filter(i=>(S.cat==="전체"||i.cat===S.cat)&&(!S.promo||i.promo));if(S.sortP)l.sort((a,b)=>eff(a)-eff(b));
+  return `<div class="chips">${CATS.map(c=>`<button class="chip ${c===S.cat?"on":""}" onclick="S.cat='${c}';draw()">${c}</button>`).join("")}</div>
+  <label class="note" style="display:flex;gap:8px;align-items:center;min-height:36px"><input type="checkbox" ${S.promo?"checked":""} onchange="S.promo=this.checked;draw()"> 행사 상품만 보기</label>
+  <label class="note" style="display:flex;gap:8px;align-items:center;min-height:36px"><input type="checkbox" ${S.sortP?"checked":""} onchange="S.sortP=this.checked;draw()"> 낮은 가격순</label>
+  ${l.map(i=>{const on=S.slots.includes(i.id);return `<div class="card"><div class="row"><div><b>${ico(i.id,30)} ${i.n}</b> ${i.promo?`<span class="pill">${i.promo}</span>`:""}<div class="note">${i.cat} · ${i.k}kcal · 단백질 ${i.pro}g · 나트륨 ${i.na}mg</div><span class="pr">${won(eff(i))}</span>${i.promo?` <span class="note"><s>${won(i.p)}</s></span>`:""}</div>
+  <button class="btn ${on?"":"soft"}" onclick="place('${i.id}')">${on?"담김 ✓":"담기"}</button></div></div>`}).join("")}`;
+}],
+[()=>{
+  const t=tot(S.slots),lv=t.n===0?["대기","var(--bg)"]:t.fill<70?["안전","#E3F2C2"]:t.fill<90?["주의","var(--warn)"]:["넘침 위험","#FFD6D6"];
+  const nu=t.na>2000?"나트륨 경고":t.k>800?"열량 주의":t.n?"양호":"대기",done=t.n>=2&&S.plate===S.slots.join(",");
+  return `<div class="slots">${S.slots.map((k,i)=>`<div class="slot ${k?"f":""}"><div class="note">슬롯 ${i+1}</div>${k?`<div>${ico(k,38)}</div><b>${I[k].n}</b><div class="note">${won(eff(I[k]))}</div><button class="chip" style="margin-top:4px" onclick="S.slots[${i}]=null;save();draw()">비우기</button>`:`<button class="chip" style="margin-top:8px" onclick="go(1)">+ 재료 담기</button>`}</div>`).join("")}</div>
+  ${t.n<2?`<button class="btn" style="width:100%;margin-bottom:10px" disabled>🍽 조합하기</button><p class="note" style="text-align:center;margin:-4px 0 10px">슬롯을 2칸 이상 채우면 조합할 수 있어요</p>`:`<button class="btn ${done?"soft":"pulse"}" style="width:100%;margin-bottom:10px" onclick="combine()">${done?"🔄 다시 조합하기":"🍽 조합하기"}</button>`}
+  ${done?plateV(t,lv,nu,S.fresh):""}
+  <div class="card"><h4>내 조합으로 저장</h4><input type="text" id="nm" placeholder="조합 이름을 지어주세요" maxlength="20">
+  <div class="row" style="margin-top:8px"><button class="btn" ${t.n<2?"disabled":""} onclick="mk()">광장에 올리기</button><button class="btn soft" onclick="S.slots=[null,null,null,null];save();draw()">초기화</button></div></div>`;
+},()=>{
+  const ids=curIds(),t=tot(ids),per=Math.max((9000-t.pay)*S.sp*4,0);
+  return `<div class="card"><b>${S.slots.some(Boolean)?"작업대 조합":rec(S.cur).n}으로 한 달 절약</b>
+  <div class="note" style="margin:4px 0">일주일에 몇 번? (외식 한 끼 9,000원 가정)</div>
+  <input type="range" min="1" max="7" value="${S.sp}" oninput="S.sp=+this.value;draw()"><div style="text-align:center"><div class="note">주 ${S.sp}회</div><div class="pr" style="font-size:1.8rem">${won(per)}</div><div class="note">한 달 절약 예상액 · 외식 ${Math.floor(per/9000)}끼 값</div></div></div>`;
+}],
+[()=>R().slice().sort((a,b)=>b.v-a.v).map((r,i)=>{const mx=Math.max(...R().map(x=>x.v));return `<div class="card"><div class="row"><b>${i+1}위 ${r.n}</b><button class="chip ${S.voted.includes(r.id)?"on":""}" onclick="vote('${r.id}')">👍 ${r.v.toLocaleString()}</button></div><div class="bar"><i style="width:${r.v/mx*100}%"></i></div><div>${items(r.it)}</div></div>`}).join(""),
+()=>{
+  if(!S.bt)return `<div class="card" style="text-align:center"><div style="font-size:2.5rem">🏆</div><b>꿀조합 토너먼트 배틀</b><p class="note">4개 조합 중 최고의 연구작을 뽑아요</p><button class="btn" onclick="bStart()">배틀 시작</button></div>`;
+  const b=S.bt;if(b.w)return `<div class="card sel" style="text-align:center">👑 최우수 연구작<br><b style="font-size:1.1rem">${b.w.n}</b><div>${items(b.w.it)}</div><button class="btn" style="margin-top:8px" onclick="S.bt=null;draw()">다시 하기</button></div>`;
+  return `<b>토너먼트 대결</b>`+[0,1].map(k=>{const r=b.l[b.i+k];return `<div class="card" onclick="bPick(${k})" style="cursor:pointer;text-align:center"><b>${r.n}</b><div>${items(r.it)}</div></div>${k?"":'<div class="note" style="text-align:center">VS</div>'}`}).join("");
+},
+()=>`<div class="row" style="margin-bottom:8px"><input type="text" id="np" placeholder="실험 후기를 남겨보세요" maxlength="80"><button class="btn" onclick="post()">등록</button></div>`+S.posts.map(p=>`<div class="card"><b>👤 ${esc(p.u)} 연구원</b><div style="font-size:.88rem">${esc(p.t)}</div></div>`).join("")],
+[()=>stockV(),()=>subV()]
+];
+
+function combine(){S.plate=S.slots.join(",");S.fresh=true;draw();clearTimeout(combine._t);combine._t=setTimeout(()=>{S.fresh=false},2600);setTimeout(()=>{const e=$("plate");if(e)e.scrollIntoView({behavior:"smooth",block:"center"})},60)}
+function dishSVG(ids){
+  let a=ids.join("|").split("").reduce((x,c)=>(x*31+c.charCodeAt(0))|0,7);
+  const R=()=>{a=(a+0x6D2B79F5)|0;let t=Math.imul(a^(a>>>15),1|a);t=(t+Math.imul(t^(t>>>7),61|t))^t;return((t^(t>>>14))>>>0)/4294967296};
+  const rr=(m,n)=>m+R()*(n-m),f=n=>n.toFixed(1),has=k=>ids.includes(k),pick=l=>l[Math.floor(R()*l.length)];
+  const inE=(cx,cy,rx,ry)=>{const t=R()*6.283,r=Math.sqrt(R());return[cx+Math.cos(t)*rx*r,cy+Math.sin(t)*ry*r]};
+  const bases=ids.filter(k=>I[k].slot==="base");
+  const NC={bul:["#D63A1C","#EA6A2C","#B52C16"],gan:["#D9702A","#EB9440","#BF5420"],shin:["#C85828","#DE7C3E","#A7421C"]};
+  const sauce=(NC[bases[0]]||["#D9A05A"])[0];
+  let o=`<defs><radialGradient id="pl" cx="40%" cy="30%" r="75%"><stop offset="0" stop-color="#fff"/><stop offset=".7" stop-color="#f3eef9"/><stop offset="1" stop-color="#ddd0ea"/></radialGradient><clipPath id="mc"><ellipse cx="150" cy="140" rx="94" ry="54"/></clipPath></defs>`;
+  o+=`<ellipse cx="160" cy="246" rx="140" ry="14" fill="#000" opacity=".18"/>`;
+  o+=`<ellipse cx="150" cy="160" rx="122" ry="84" fill="#c9bbd9"/><ellipse cx="150" cy="150" rx="122" ry="84" fill="url(#pl)"/><ellipse cx="150" cy="152" rx="94" ry="60" fill="#f6f2fa" stroke="#e1d7ec" stroke-width="2"/>`;
+  /* drinks served on the side */
+  ids.filter(k=>["milk","prot","cola"].includes(k)).forEach((k,i)=>{
+    const x=i?318:298,c={milk:"#FFFFFF",prot:"#B98B5E",cola:"#3B1F10"}[k];
+    o+=`<g transform="translate(${x} ${i?-6:0}) scale(${i?.9:1})"><path d="M-20 122h40l-6 66q0 6-6 6h-16q-6 0-6-6z" fill="#fff" fill-opacity=".45" stroke="#cdc3dc" stroke-width="2"/><path d="M-18 138h36l-4.4 50q0 5-5 5h-17q-5 0-5-5z" fill="${c}" ${k==="milk"?'stroke="#e5e8f0"':""}/>`
+     +(k==="cola"?`<circle cx="-6" cy="156" r="2.4" fill="#fff" opacity=".6"/><circle cx="5" cy="170" r="2" fill="#fff" opacity=".6"/><circle cx="-2" cy="180" r="1.6" fill="#fff" opacity=".6"/><path d="M6 140L16 104" stroke="#E53935" stroke-width="4" stroke-linecap="round"/>`:"")
+     +`<path d="M-14 126l-2 56" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".5"/></g>`;
+  });
+  if(NC[bases[0]])o+=`<ellipse cx="150" cy="160" rx="100" ry="50" fill="${sauce}" opacity=".3"/>`;
+  bases.forEach((k,bi)=>{
+    const d=bi?.4:1;let s="";
+    if(NC[k]){
+      s+=`<ellipse cx="150" cy="142" rx="94" ry="54" fill="${NC[k][2]}"/><g clip-path="url(#mc)">`;
+      for(let i=0;i<Math.round(48*d);i++){const x=rr(50,250),y=rr(86,194);s+=`<path d="M${f(x)} ${f(y)}q${f(rr(-30,30))} ${f(rr(-22,22))} ${f(rr(-10,45))} ${f(rr(-8,12))}t${f(rr(10,40))} ${f(rr(-14,14))}" fill="none" stroke="${NC[k][i%3]}" stroke-width="${f(rr(4.5,6.5))}" stroke-linecap="round"/>`}
+      s+=`<ellipse cx="132" cy="114" rx="52" ry="13" fill="#fff" opacity=".14" transform="rotate(-8 132 114)"/></g>`;
+    }else if(k==="rice"){
+      s+=`<ellipse cx="150" cy="142" rx="94" ry="54" fill="#fbf8ef"/><g clip-path="url(#mc)">`;
+      for(let i=0;i<Math.round(150*d);i++){const[x,y]=inE(150,140,92,52);s+=`<ellipse cx="${f(x)}" cy="${f(y)}" rx="5.2" ry="2.6" fill="${R()<.5?"#fffdf7":"#eee8d6"}" transform="rotate(${f(rr(0,180))} ${f(x)} ${f(y)})"/>`}
+      s+=`</g>`;
+    }else{
+      s+=`<ellipse cx="150" cy="142" rx="94" ry="54" fill="#4F9A32"/><g clip-path="url(#mc)">`;
+      for(let i=0;i<Math.round(40*d);i++){const[x,y]=inE(150,140,92,50);s+=`<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(rr(14,24))}" ry="${f(rr(6,10))}" fill="${pick(["#6DB83F","#8BCB52","#4F9A32","#A5D86A"])}" transform="rotate(${f(rr(0,180))} ${f(x)} ${f(y)})"/>`}
+      for(let i=0;i<3;i++){const[x,y]=inE(150,140,70,35);s+=`<circle cx="${f(x)}" cy="${f(y)}" r="7" fill="#E53935"/><circle cx="${f(x-2)}" cy="${f(y-2)}" r="1.8" fill="#fff" opacity=".6"/>`}
+      s+=`</g>`;
+    }
+    o+=s+`<ellipse cx="150" cy="142" rx="94" ry="54" fill="none" stroke="#000" stroke-opacity=".09" stroke-width="2"/>`;
+  });
+  const sp=[[118,120],[180,118],[150,146],[198,148],[106,150],[150,100]].sort(()=>R()-.5);let si=0;const P=()=>sp[si++%sp.length];
+  if(has("tuna")){
+    for(let i=0;i<26;i++){const[x,y]=inE(150,140,86,46);o+=`<ellipse cx="${f(x)}" cy="${f(y)}" rx="${f(rr(4,8))}" ry="${f(rr(3,5))}" fill="${pick(["#EBD7A8","#F6EBCB","#E2C792"])}" transform="rotate(${f(rr(0,180))} ${f(x)} ${f(y)})"/>`}
+    for(let i=0;i<12;i++){const[x,y]=inE(150,140,86,46);o+=`<rect x="${f(x)}" y="${f(y)}" width="${f(rr(5,10))}" height="${f(rr(2.5,4.5))}" rx="1" fill="#1F2D1F" transform="rotate(${f(rr(0,180))} ${f(x)} ${f(y)})"/>`}
+  }
+  if(has("ched")){const[x,y]=P();o+=`<g fill="#D99A0B"><ellipse cx="${x}" cy="${y+4}" rx="40" ry="17"/><ellipse cx="${x-30}" cy="${y+12}" rx="12" ry="11"/><ellipse cx="${x+32}" cy="${y+13}" rx="10" ry="12"/><ellipse cx="${x+6}" cy="${y+22}" rx="9" ry="13"/></g><g fill="#FFC72C" opacity=".96"><ellipse cx="${x}" cy="${y}" rx="40" ry="17"/><ellipse cx="${x-30}" cy="${y+8}" rx="12" ry="11"/><ellipse cx="${x+32}" cy="${y+9}" rx="10" ry="12"/><ellipse cx="${x+6}" cy="${y+18}" rx="9" ry="13"/></g><ellipse cx="${x-8}" cy="${y-6}" rx="20" ry="5" fill="#fff" opacity=".45"/>`}
+  if(has("str")){const[x,y]=P();o+=`<ellipse cx="${x}" cy="${y+3}" rx="22" ry="9" fill="#F4E3A0"/>`+[-1,0,1].map(j=>`<path d="M${x-34} ${y+j*5}q34 ${-30+j*8} 68 ${j*3}" fill="none" stroke="#FFF1B8" stroke-width="5" stroke-linecap="round"/><path d="M${x-30} ${y+j*5-2}q30 ${-28+j*8} 58 ${j*3}" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>`).join("")}
+  if(has("chest")){const[x,y]=P();[[-22,0,-18],[2,10,12],[24,-2,-8]].forEach(q=>{o+=`<g transform="translate(${x+q[0]} ${y+q[1]}) rotate(${q[2]})"><ellipse rx="22" ry="9" fill="#F2D0A4" stroke="#D3A171" stroke-width="1.5"/><path d="M-10-7l8 14M0-8l8 15M10-7l6 12" stroke="#A8693A" stroke-width="2" opacity=".5" stroke-linecap="round"/></g>`})}
+  if(has("sau")){const[x,y]=P();[[-30,-4],[-9,8],[14,-6],[34,6]].forEach(q=>{const cx=x+q[0],cy=y+q[1];o+=`<ellipse cx="${cx}" cy="${cy+3}" rx="15" ry="10.5" fill="#7A2C16"/><ellipse cx="${cx}" cy="${cy}" rx="15" ry="10.5" fill="#C0553A" stroke="#8F3A24" stroke-width="1.5"/><ellipse cx="${cx}" cy="${cy}" rx="10" ry="6.5" fill="#D9795A"/><ellipse cx="${cx-4}" cy="${cy-3}" rx="5" ry="2" fill="#fff" opacity=".4"/>`})}
+  if(has("banana")){const[x,y]=P();[[-26,0],[-6,8],[16,-2],[34,8]].forEach(q=>{const cx=x+q[0],cy=y+q[1];o+=`<ellipse cx="${cx}" cy="${cy+2}" rx="12" ry="9" fill="#D9AE1E"/><ellipse cx="${cx}" cy="${cy}" rx="12" ry="9" fill="#FFE066" stroke="#E0B422" stroke-width="1.4"/><circle cx="${cx}" cy="${cy}" r="3" fill="#EBC84A"/><circle cx="${cx}" cy="${cy}" r="1" fill="#6B4E10"/>`})}
+  if(has("egg")){const[x,y]=P();[[-19,0],[19,6]].forEach(q=>{const cx=x+q[0],cy=y+q[1];o+=`<ellipse cx="${cx}" cy="${cy+3}" rx="18" ry="14" fill="#d9cfb4"/><ellipse cx="${cx}" cy="${cy}" rx="18" ry="14" fill="#fffdf8" stroke="#e6dcc4" stroke-width="1.5"/><ellipse cx="${cx}" cy="${cy}" rx="9" ry="7" fill="#FFB300"/><ellipse cx="${cx}" cy="${cy+.5}" rx="5" ry="3.8" fill="#FF9800"/><ellipse cx="${cx-3}" cy="${cy-2.5}" rx="2.2" ry="1.4" fill="#fff" opacity=".6"/>`});o+=`<path d="M${x-6} ${y+8}q-2 12 4 14" fill="none" stroke="#FFB300" stroke-width="4" stroke-linecap="round" opacity=".85"/>`}
+  if(has("snack")){const[x,y]=P();for(let i=0;i<9;i++){const[bx,by]=inE(x,y,34,18);o+=`<rect x="${f(bx)}" y="${f(by)}" width="${f(rr(9,15))}" height="5" rx="2.5" fill="${pick(["#D99A2B","#E8B24A","#C48620"])}" transform="rotate(${f(rr(0,180))} ${f(bx)} ${f(by)})"/><circle cx="${f(bx+3)}" cy="${f(by+1)}" r="1" fill="#fff"/>`}}
+  if(has("hot")){o+=`<path d="M96 128q14-16 28 0t28 0 28 0 28 0" fill="none" stroke="#9C1208" stroke-width="5.5" stroke-linecap="round" opacity=".92"/><path d="M96 128q14-16 28 0t28 0 28 0 28 0" fill="none" stroke="#E5301C" stroke-width="2.4" stroke-linecap="round" opacity=".7"/>`+[0,1,2,3,4,5].map(()=>{const[x,y]=inE(150,140,90,46);return `<circle cx="${f(x)}" cy="${f(y)}" r="${f(rr(1.4,3))}" fill="#B3170E" opacity=".85"/>`}).join("")}
+  if(has("mayo")){o+=`<path d="M100 152q14-14 28 0t28 0 28 0 28 0" fill="none" stroke="#FFF6D6" stroke-width="4.2" stroke-linecap="round" opacity=".96"/><path d="M100 153q14-14 28 0t28 0 28 0 28 0" fill="none" stroke="#E8D9A8" stroke-width="1.2" stroke-linecap="round" opacity=".8"/>`}
+  if(bases.length){
+    for(let i=0;i<18;i++){const[x,y]=inE(150,138,88,46);o+=`<rect x="${f(x)}" y="${f(y)}" width="${f(rr(5,9))}" height="2.4" rx="1.2" fill="#6FB43B" transform="rotate(${f(rr(0,180))} ${f(x)} ${f(y)})"/>`}
+    for(let i=0;i<14;i++){const[x,y]=inE(150,138,88,46);o+=`<ellipse cx="${f(x)}" cy="${f(y)}" rx="2" ry="1.2" fill="#F3E3B0"/>`}
+  }
+  if(NC[bases[0]]||has("sau")){o+=[128,152,176].map((x,i)=>`<path class="stm" style="animation-delay:${i*.45}s" d="M${x} 96q-10-14 0-26t0-24" fill="none" stroke="#bfb0d4" stroke-width="5" stroke-linecap="round" opacity=".6"/>`).join("")}
+  return `<svg class="dish" viewBox="0 0 340 270" role="img" aria-label="완성된 꿀조합 요리">${o}</svg>`;
+}
+function plateV(t,lv,nu,fr){
+  const ids=S.slots.filter(Boolean);
+  return `<div class="card platecard ${fr?"fresh":""}" id="plate"><div class="zzan">✨ 짜잔! 완성! ✨</div>
+  <div class="dishwrap">${dishSVG(ids)}</div>
+  <div class="pnames">${items(ids)}</div>
+  <div class="res"><div class="row"><b>이 조합의 영양 정보</b><span class="pr" style="font-size:1.2rem">${won(t.pay)}</span></div>
+  ${t.list>t.pay?`<div class="note">정가 ${won(t.list)} → 행사로 ${won(t.list-t.pay)} 절약</div>`:""}
+  <div class="stat"><div>🔥 열량<b>${t.k}kcal</b></div><div>💪 단백질<b>${t.pro}g</b></div><div>🧂 나트륨<b>${t.na}mg</b></div><div>⏱ 조리 시간<b>${t.heat?t.heat+"초":"불필요"}</b></div></div>
+  <div class="note">포화도(넘침 주의) · ${lv[0]} ${Math.round(t.fill)}%</div><div class="bar"><i style="width:${Math.min(100,t.fill)}%"></i></div>
+  <div class="note">영양 상태 · ${nu}</div></div></div>`;
+}
+const cup=(b,band,deco)=>`<ellipse cx="32" cy="58" rx="17" ry="3" fill="#000" opacity=".15"/><path d="M13 20h38l-5 37q-1 3-4 3H22q-3 0-4-3z" fill="${b}"/><path d="M15.2 30h33.6l-1.4 11H16.6z" fill="${band}"/>${deco}<path d="M14 21h8l4 36h-4q-3 0-4-3z" fill="#fff" opacity=".18"/><ellipse cx="32" cy="19" rx="20" ry="4.6" fill="#F4EFE3" stroke="#d6cdb8"/><ellipse cx="32" cy="19" rx="14" ry="2.6" fill="#E6DEC9"/>`;
+const ICO={
+bul:cup("#B71C1C","#141414",`<path d="M32 32c3.5 3 5.5 5.5 5.5 8.5a5.5 5.5 0 01-11 0c0-2 .8-3.4 2.2-4.6.2 2 1 3 2.2 3.2-1.2-3.2-.6-5 1.1-7.1z" fill="#FF9800"/><path d="M32 36c1.6 1.6 2.6 2.8 2.6 4.2a2.6 2.6 0 01-5.2 0c0-1 .5-1.8 1.2-2.4.2 1 .6 1.4 1.4 1.6z" fill="#FFE082"/>`),
+gan:cup("#D94F1E","#FFF1DC",`<circle cx="22" cy="35.5" r="2" fill="#D94F1E"/><circle cx="32" cy="35.5" r="2" fill="#D94F1E"/><circle cx="42" cy="35.5" r="2" fill="#D94F1E"/><path d="M16 46h32" stroke="#FFC107" stroke-width="2.5"/>`),
+shin:cup("#C62828","#111",`<path d="M20 36h24" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M23 40h18" stroke="#FFC107" stroke-width="2" stroke-linecap="round"/>`),
+rice:`<ellipse cx="32" cy="58" rx="19" ry="3" fill="#000" opacity=".14"/><path d="M9 33h46l-4 21q-1 4-5 4H18q-4 0-5-4z" fill="#F6F6F9" stroke="#cfd0d8" stroke-width="1.5"/><path d="M11 34c1-17 41-17 42 0z" fill="#fff" stroke="#e4e4ea"/><g fill="#ece7d6"><ellipse cx="24" cy="27" rx="3" ry="1.6" transform="rotate(-20 24 27)"/><ellipse cx="34" cy="23" rx="3" ry="1.6" transform="rotate(15 34 23)"/><ellipse cx="42" cy="29" rx="3" ry="1.6" transform="rotate(-8 42 29)"/><ellipse cx="30" cy="30" rx="3" ry="1.6"/></g><rect x="10" y="36" width="44" height="8" rx="3" fill="#8DB91F"/><circle cx="18" cy="40" r="2" fill="#fff"/><path d="M26 40h22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>`,
+salad:`<ellipse cx="32" cy="58" rx="22" ry="3" fill="#000" opacity=".14"/><path d="M7 30h50l-4 24q-1 4-5 4H16q-4 0-5-4z" fill="#E9F4FB" stroke="#b9cfe0" stroke-width="1.5"/><ellipse cx="20" cy="31" rx="11" ry="6" fill="#5FAE3A"/><ellipse cx="34" cy="28" rx="12" ry="6.5" fill="#7DC84B" transform="rotate(-8 34 28)"/><ellipse cx="46" cy="31" rx="9" ry="5.5" fill="#4F9A32"/><circle cx="27" cy="26" r="5" fill="#E53935"/><circle cx="26" cy="25" r="1.4" fill="#fff" opacity=".6"/><path d="M38 24q8-5 14 1l-2 6q-7-3-13 0z" fill="#F3D4AE" stroke="#D9A877"/><path d="M9 36h46l-1.4 8H10.4z" fill="#fff" opacity=".45"/>`,
+ched:`<g transform="rotate(-10 32 32)"><rect x="14" y="20" width="38" height="34" rx="3" fill="#E5A800"/><rect x="11" y="14" width="38" height="34" rx="3" fill="#FFC21A"/><path d="M11 14h38v8H11z" fill="#FFD95A"/><path d="M14 17h12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".7"/><path d="M42 48l7-7v7z" fill="#E5A800"/></g>`,
+str:`<g transform="rotate(14 32 32)"><rect x="22" y="14" width="20" height="44" rx="4" fill="#fff" stroke="#d6d6de" stroke-width="1.5"/><rect x="22" y="30" width="20" height="14" fill="#E53935"/><path d="M27 37h10" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><path d="M24 14q-4-8 2-10M32 14q0-9 3-9M40 14q4-7 0-10" fill="none" stroke="#FFF1B8" stroke-width="3" stroke-linecap="round"/></g>`,
+hot:`<ellipse cx="32" cy="59" rx="12" ry="2.6" fill="#000" opacity=".15"/><rect x="26" y="6" width="12" height="9" rx="2" fill="#FFD600" stroke="#C9A800"/><path d="M27 15h10v8l5 7v24q0 4-4 4H26q-4 0-4-4V30l5-7z" fill="#C62828"/><rect x="22" y="36" width="20" height="16" rx="2" fill="#FFF3D6"/><path d="M32 38c3 2.4 4.4 4.4 4.4 6.6a4.4 4.4 0 01-8.8 0c0-1.6.7-2.6 1.8-3.6.2 1.6.8 2.4 1.8 2.6-.9-2.4-.4-4 .8-5.6z" fill="#E53935"/><path d="M26 25v26" stroke="#fff" stroke-width="2" opacity=".3"/>`,
+mayo:`<ellipse cx="32" cy="59" rx="13" ry="2.6" fill="#000" opacity=".15"/><rect x="29" y="4" width="6" height="9" rx="2" fill="#E53935"/><path d="M28 13h8v8l7 9v24q0 4-4 4H25q-4 0-4-4V30l7-9z" fill="#FFF8E1" stroke="#e2d7b3" stroke-width="1.5"/><rect x="21" y="36" width="22" height="16" fill="#FFD54F"/><ellipse cx="32" cy="44" rx="6" ry="4.4" fill="#fff"/><circle cx="32" cy="44" r="2.4" fill="#FFB300"/>`,
+tuna:`<ellipse cx="32" cy="58" rx="24" ry="3" fill="#000" opacity=".14"/><path d="M32 7q4 0 6 4l20 40q2 6-4 6H10q-6 0-4-6L26 11q2-4 6-4z" fill="#fff" stroke="#d9d9e0" stroke-width="1.5"/><path d="M18.4 33h27.2L58 52q2 6-4 6H10q-6 0-4-6z" fill="#1F2D1F"/><rect x="21" y="38" width="22" height="12" rx="2" fill="#F5C842"/><ellipse cx="32" cy="44" rx="7" ry="3.6" fill="#E8A2A2"/><path d="M26 44q6-4 12 0" fill="none" stroke="#fff" stroke-width="1.5"/>`,
+milk:`<ellipse cx="32" cy="59" rx="15" ry="2.6" fill="#000" opacity=".14"/><path d="M17 23l15-9 15 9v33q0 3-3 3H20q-3 0-3-3z" fill="#fff" stroke="#cdd6e6" stroke-width="1.5"/><path d="M17 23l15-9 15 9-15 7z" fill="#E4EBF7" stroke="#cdd6e6"/><rect x="17.8" y="36" width="28.4" height="14" fill="#4A90E2"/><path d="M32 38c3.4 4 4.6 5.2 4.6 7a4.6 4.6 0 01-9.2 0c0-1.8 1.2-3 4.6-7z" fill="#fff"/>`,
+prot:`<ellipse cx="32" cy="59" rx="12" ry="2.6" fill="#000" opacity=".15"/><rect x="26" y="5" width="12" height="9" rx="2" fill="#263238"/><path d="M26 14h12l4 8v32q0 5-5 5H27q-5 0-5-5V22z" fill="#6D4C41"/><rect x="22" y="30" width="20" height="18" fill="#F5E6D3"/><text x="32" y="44" text-anchor="middle" font-size="14" font-weight="900" font-family="sans-serif" fill="#6D4C41">P</text><path d="M26 18v36" stroke="#fff" stroke-width="2" opacity=".25"/>`,
+cola:`<ellipse cx="32" cy="59" rx="14" ry="2.6" fill="#000" opacity=".15"/><rect x="19" y="10" width="26" height="46" rx="5" fill="#D32F2F"/><ellipse cx="32" cy="10.5" rx="13" ry="3.2" fill="#CFD2D8"/><ellipse cx="32" cy="10" rx="9" ry="1.8" fill="#9aa0a8"/><path d="M19 40q13-12 26-4v7q-13-8-26 4z" fill="#fff"/><rect x="23" y="15" width="3" height="38" rx="1.5" fill="#fff" opacity=".35"/><ellipse cx="32" cy="55" rx="12" ry="2.4" fill="#CFD2D8"/>`,
+egg:`<ellipse cx="32" cy="58" rx="20" ry="3" fill="#000" opacity=".14"/><path d="M32 6c13 0 22 18 22 32 0 11-9 19-22 19S10 49 10 38C10 24 19 6 32 6z" fill="#fffdf8" stroke="#e6dcc4" stroke-width="1.5"/><circle cx="32" cy="38" r="12" fill="#FFB300"/><circle cx="32" cy="38" r="8" fill="#FF9800"/><circle cx="28.5" cy="34.5" r="2.6" fill="#fff" opacity=".6"/>`,
+sau:`<ellipse cx="32" cy="52" rx="24" ry="3" fill="#000" opacity=".14"/><g transform="rotate(-22 32 32)"><rect x="5" y="22" width="54" height="21" rx="10.5" fill="#B5472B"/><rect x="9" y="25" width="46" height="5" rx="2.5" fill="#E0805A"/><path d="M19 22v21M29 22v21M39 22v21M49 22v21" stroke="#7A2C16" stroke-width="2.4" opacity=".5"/><ellipse cx="9" cy="32.5" rx="4" ry="9" fill="#8F3820" opacity=".5"/></g>`,
+snack:`<ellipse cx="32" cy="54" rx="22" ry="3" fill="#000" opacity=".14"/><path d="M8 44C16 14 26 14 32 32S48 50 56 20" fill="none" stroke="#B9791C" stroke-width="10" stroke-linecap="round"/><path d="M8 20c8 30 18 30 24 12S48 14 56 44" fill="none" stroke="#E2A83A" stroke-width="10" stroke-linecap="round"/><path d="M8 44C16 14 26 14 32 32" fill="none" stroke="#F4C766" stroke-width="3" stroke-linecap="round" opacity=".7"/><g fill="#fff"><circle cx="18" cy="26" r="1.4"/><circle cx="30" cy="34" r="1.4"/><circle cx="44" cy="30" r="1.4"/><circle cx="14" cy="38" r="1.2"/><circle cx="50" cy="40" r="1.2"/></g>`,
+chest:`<ellipse cx="32" cy="55" rx="23" ry="3" fill="#000" opacity=".14"/><path d="M8 36C8 18 24 10 38 14c14 4 20 14 17 24-3 11-18 17-30 14C14 49 8 44 8 36z" fill="#F2D0A4" stroke="#D3A171" stroke-width="1.5"/><path d="M19 22l15 24M29 17l15 25M40 19l10 17" stroke="#A8693A" stroke-width="2.6" stroke-linecap="round" opacity=".55"/><ellipse cx="22" cy="24" rx="9" ry="4" fill="#fff" opacity=".35" transform="rotate(-25 22 24)"/>`,
+banana:`<ellipse cx="34" cy="56" rx="20" ry="3" fill="#000" opacity=".14"/><path d="M14 10q-6 32 22 42 12 4 20-3-3-2-8-2Q24 40 25 12z" fill="#FFD83A" stroke="#C9A010" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 10q3-6 10-3l1 7z" fill="#7B5E12"/><path d="M54 48l3 1-2 3z" fill="#5B430C"/><path d="M20 20q1 20 20 31" fill="none" stroke="#FFF2A1" stroke-width="3" stroke-linecap="round" opacity=".7"/>`
+};
+const ico=(k,s)=>`<svg class="ico" width="${s||22}" height="${s||22}" viewBox="0 0 64 64" aria-hidden="true">${ICO[k]||""}</svg>`;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function chooser(){const ids=S.slots.some(Boolean)?"":"";return `<div class="chips">${R().map(r=>`<button class="chip ${r.id===S.cur&&!S.slots.some(Boolean)?"on":""}" onclick="S.cur='${r.id}';S.slots=[null,null,null,null];S.out={};draw()">${r.n}</button>`).join("")}</div>`}
+function stockV(){
+  const ids=curIds();
+  return `${chooser()}<p class="note">※ 가상 재고 데이터예요</p>`+ST.map((s,si)=>{
+    const st=ids.map(k=>(k.charCodeAt(0)+k.charCodeAt(1)*3+si*7)%5),o=st.includes(0);
+    return `<div class="card"><b>📍 ${s}</b><div>${ids.map((k,i)=>`<span class="it ${st[i]==0?"x":""}">${ico(k,18)} ${st[i]==0?"품절":st[i]==1?"소량":"있음"}</span>`).join("")}</div><button class="btn" style="margin-top:8px" ${o?"disabled":""} onclick="this.textContent='✅ 예약 완료(가상)';toast('예약이 완료됐어요 (가상)')">${o?"품절 상품 있음":"예약하기"}</button></div>`}).join("");
+}
+function subV(){
+  const ids=curIds(),fin=ids.map(k=>S.out[k]?I[k].alt:k),a=tot(ids),b=tot(fin);
+  return `${chooser()}<p class="note">매장에 없는 상품은 [품절]을 눌러보세요</p>`+ids.map(k=>{
+    const o=S.out[k],n=I[I[k].alt],d=eff(n)-eff(I[k]),dk=n.k-I[k].k;
+    return `<div class="card"><div class="row"><span class="it ${o?"x":""}">${ico(k,18)} ${I[k].n}</span><button class="chip" onclick="S.out['${k}']=!S.out['${k}'];draw()">${o?"되돌리기":"품절"}</button></div>${o?`<div class="note" style="margin-top:6px">🔁 대체 추천: <b>${ico(n.id,18)} ${n.n}</b><br>가격 ${d>=0?"+":""}${d}원 · 열량 ${dk>=0?"+":""}${dk}kcal</div>`:""}</div>`}).join("")+`<p>변경 후 합계 <span class="pr">${won(b.pay)}</span> · ${b.k}kcal</p>`;
+}
+function mk(){
+  const n=($("nm").value||"").trim()||"나의 꿀조합",ids=S.slots.filter(Boolean);
+  S.mine.push({id:"u"+Date.now(),n:n,it:ids,tg:[],v:0,d:"내가 만든 조합",nick:(S.user&&S.user.nick)||"나",ages:S.user&&S.user.age?[S.user.age]:[20]});save();go(3);toast("광장에 올렸어요 🧪");
+}
+function vote(id){if(S.voted.includes(id))return;S.voted.push(id);const r=rec(id);r.v++;if(id[0]=="u")save();draw()}
+function post(){const v=($("np").value||"").trim();if(!v)return;S.posts.unshift({u:(S.user&&S.user.nick)||"나",t:v});save();draw();toast("후기가 등록됐어요 🧪")}
+function bStart(){S.bt={l:R().slice().sort(()=>Math.random()-.5).slice(0,4),n:[],i:0,w:null};draw()}
+function bPick(k){const b=S.bt;b.n.push(b.l[b.i+k]);b.i+=2;if(b.i>=b.l.length){if(b.n.length==1)b.w=b.n[0];else{b.l=b.n;b.n=[];b.i=0}}draw()}
+function priceV(){
+  const ids=curIds(),t=tot(ids),disc=S.pocket?Math.round(t.pay*0.05/10)*10:0,fin=t.pay-disc;
+  const budget=R().filter(r=>tot(r.it).pay<=S.bud).sort((a,b)=>{const x=tot(a.it),y=tot(b.it);return y.k/y.pay-x.k/x.pay});
+  return `<div class="card"><h4>${S.slots.some(Boolean)?"작업대 조합":rec(S.cur).n} 가격 내역</h4>
+  ${ids.map(k=>{const i=I[k];return `<div class="row" style="font-size:.84rem;margin:5px 0"><span>${ico(i.id,18)} ${i.n} ${i.promo?`<span class="pill">${i.promo}</span>`:""}</span><span>${i.promo?`<s class="note">${won(i.p)}</s> `:""}<b>${won(eff(i))}</b></span></div>`}).join("")}
+  <hr style="border:0;border-top:1px solid var(--ln)">
+  <div class="row note"><span>정가 합계</span><span>${won(t.list)}</span></div>
+  <div class="row note"><span>행사 할인</span><span>-${won(t.list-t.pay)}</span></div>
+  <div class="row note"><span>포켓CU 결제 5% (가정)</span><span>-${won(disc)}</span></div>
+  <div class="row" style="margin-top:6px"><b>최종 결제 예상</b><span class="pr" style="font-size:1.3rem">${won(fin)}</span></div>
+  <label class="note" style="display:flex;gap:8px;align-items:center;min-height:36px"><input type="checkbox" ${S.pocket?"checked":""} onchange="S.pocket=this.checked;draw()"> 포켓CU 결제 할인 적용</label>
+  <span class="pill">천 원당 ${t.pay?Math.round(t.k/fin*1000):0}kcal</span> <span class="pill">천 원당 단백질 ${t.pay?(t.pro/fin*1000).toFixed(1):0}g</span></div>
+  <div class="card"><b>예산 설정 <span class="pr" id="bv">${won(S.bud)}</span></b>
+  <input type="range" min="3000" max="9000" step="500" value="${S.bud}" oninput="$('bv').textContent=won(+this.value)" onchange="S.bud=+this.value;draw()"></div>
+  <h4>예산 안에서 가성비 좋은 순</h4>
+  ${budget.map(r=>{const x=tot(r.it);return `<div class="card"><div class="row"><b>${r.n}</b><span class="pr">${won(x.pay)}</span></div><span class="pill">천 원당 ${Math.round(x.k/x.pay*1000)}kcal</span> <span class="pill">천 원당 단백질 ${(x.pro/x.pay*1000).toFixed(1)}g</span> <button class="chip" style="float:right" onclick="remix('${r.id}')">작업대로</button></div>`}).join("")||'<p class="note">예산을 조금 더 높여보세요!</p>'}`;
+}
+VIEW[2].splice(1,0,()=>priceV().split('<div class="card"><b>예산 설정')[0]+'<button class="btn" style="width:100%" onclick="go(0,1)">💰 예산별 가성비 조합 보기</button>');
+function budgetV(){
+  const L=R().map(r=>{const x=tot(r.it);return{r:r,x:x,kp:x.k/x.pay*1000,pp:x.pro/x.pay*1000}}).filter(o=>o.x.pay<=S.bud).sort((a,b)=>b.kp-a.kp);
+  const mx=Math.max(1,...L.map(o=>o.kp)),md=["🥇","🥈","🥉"];
+  return `<div class="card" style="background:linear-gradient(135deg,#652D90,#8DB91F);color:#fff"><div style="font-size:.85rem;opacity:.9">💰 내 예산</div><div style="font-size:2.1rem" id="bv">${won(S.bud)}</div>
+  <input type="range" min="3000" max="9000" step="500" value="${S.bud}" style="accent-color:#9CCB3B" oninput="$('bv').textContent=won(+this.value)" onchange="S.bud=+this.value;draw()"></div>
+  <div class="chips">${[3000,4000,5000,6000,7000,8000].map(v=>`<button class="chip ${v===S.bud?"on":""}" onclick="S.bud=${v};draw()">${v/1000}천원</button>`).join("")}</div>
+  <h4>🏅 가성비 순위 · ${L.length}개 조합</h4>`+(L.map((o,i)=>`<div class="card ${i==0?"sel":""}">${nk(o.r)}<div class="row"><b><span class="medal">${md[i]||(i+1)+"."}</span>${o.r.n}</b><span class="pr">${won(o.x.pay)}</span></div>
+  <div>${items(o.r.it)}</div>
+  <div class="gauge" style="margin-top:6px"><span>가성비 ${Math.round(o.kp)}kcal / 천원</span><span>예산 ${Math.round(o.x.pay/S.bud*100)}% 사용</span></div><div class="bar hot"><i style="width:${o.kp/mx*100}%"></i></div>
+  <div class="row"><span><span class="pill">남는 돈 ${won(S.bud-o.x.pay)}</span> <span class="pill">단백질 ${o.pp.toFixed(1)}g / 천원</span></span><button class="btn soft" onclick="remix('${o.r.id}')">작업대로</button></div></div>`).join("")||'<p class="note">예산을 조금 더 높여보세요!</p>');
+}
+VIEW[0].push(budgetV);
+const drop=w=>`<svg width="${w}" height="${w}" viewBox="0 0 64 64" aria-hidden="true" style="flex:none"><g class="hop"><path d="M32 5C29 14 12 25 12 40a20 20 0 0040 0C52 25 35 14 32 5z" fill="#9CCB3B" stroke="#6F9420" stroke-width="2"/><path d="M32 5q3-6 9-4q-2 6-9 4z" fill="#6F9420"/><path d="M20 31c1-4 4-7 7-9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/><ellipse cx="25" cy="41" rx="3" ry="3.6" fill="#2B0F47"/><ellipse cx="39" cy="41" rx="3" ry="3.6" fill="#2B0F47"/><circle cx="26" cy="39.6" r="1.1" fill="#fff"/><circle cx="40" cy="39.6" r="1.1" fill="#fff"/><ellipse cx="19" cy="48" rx="3.4" ry="2" fill="#FF8FB1" opacity=".8"/><ellipse cx="45" cy="48" rx="3.4" ry="2" fill="#FF8FB1" opacity=".8"/><path d="M28 48q4 4.5 8 0" fill="none" stroke="#2B0F47" stroke-width="2" stroke-linecap="round"/></g></svg>`;
+function lobbyV(){
+  const nick=esc((S.user&&S.user.nick)||"연구원"),t=tot(S.slots),top=R().slice().sort((a,b)=>b.v-a.v)[0],tp=tot(top.it);
+  const l=R().filter(r=>S.sit==="전체"||(r.tg||[]).includes(S.sit)),favs=R().filter(r=>S.fav.includes(r.id));
+  const T=[["🛒","재료 담기","행사 상품까지 한눈에",1,0,"#E8F3C8"],["🧪","조합 작업대","슬롯에 담고 설계",2,0,"#EFE3F9"],["💰","가성비 공식","예산 안에서 최고",0,1,"#FFE9B0"],["🧾","가격 분석","행사·결제 할인",2,1,"#FFE6DF"],["🏆","연구 광장","랭킹·배틀·후기",3,0,"#E2E9FB"],["📍","재고 탐사","매장 재고·대체",4,0,"#D9F2EA"]];
+  return `<div class="hero"><div><div style="font-size:.78rem;opacity:.85">🏠 연구소 로비</div><div style="font-size:1.4rem;line-height:1.3;margin:2px 0 6px">안녕하세요,<br><span style="color:#E3FF9A">${nick}</span> 연구원님!</div><div style="font-size:.82rem;opacity:.92">오늘도 꿀조합 연구 시작해 볼까요? 🍯</div></div>${drop(92)}</div>
+  ${guideV()}<div class="minis"><button class="mini" onclick="go(2)"><b>${t.n}/4</b>작업대 재료</button><button class="mini" onclick="go(2,1)"><b>${t.n?won(t.pay):"—"}</b>현재 합계</button><button class="mini" onclick="go(0,1)"><b>${won(S.bud)}</b>내 예산</button></div>
+  <div class="tg">${T.map(x=>`<button class="tile" onclick="go(${x[3]},${x[4]})"><span class="bd" style="background:${x[5]}">${x[0]}</span><b>${x[1]}</b><small>${x[2]}</small></button>`).join("")}</div>
+  <div class="card hot"><div class="row"><b>🔥 오늘의 인기 조합</b><span class="pr">${won(tp.pay)}</span></div>${nk(top)}<div style="font-size:1.15rem;margin:4px 0">${top.n}</div><div>${items(top.it)}</div>${mdNote(top)}<div class="row" style="margin-top:8px"><span class="note">👍 ${top.v.toLocaleString()}명이 추천</span><button class="btn" onclick="remix('${top.id}')">작업대로</button></div></div>
+  ${favs.length?`<div class="sec"><span>❤️ 내가 찜한 조합</span></div><div class="chips">${favs.map(r=>`<button class="chip" onclick="remix('${r.id}')">${r.n}</button>`).join("")}</div>`:""}
+  <div class="sec"><span>🍽 상황별 처방</span></div>
+  <div class="chips">${SIT.map(s=>`<button class="chip ${s===S.sit?"on":""}" onclick="S.sit='${s}';draw()">${s}</button>`).join("")}</div>
+  ${l.map(card).join("")||'<p class="note">해당 상황의 조합이 아직 없어요.</p>'}`;
+}
+VIEW[0][0]=lobbyV;
+const nk=r=>`<div class="nk">👤 ${esc(r.nick||"연구원")}</div>`;
+const mdNote=r=>r.v>=10000?'<div class="mdn">🏢 CU 상품기획팀 MD가 시식·검토 중이에요</div>':"";
+const AGEN={all:"전 연령 통합 · 주간 급상승",10:"도파민 · 가성비",20:"헬스 · 트렌드",30:"퇴근길 · 홈술"};
+function rankV(){
+  const a=S.rk||"all",L=R().filter(r=>a==="all"||(r.ages||[]).includes(a)).map(r=>({r:r,s:a==="all"?r.v:r.v*((r.ages||[])[0]===a?1:.7)})).sort((x,y)=>y.s-x.s),mx=Math.max(1,...L.map(o=>o.s)),mm=["🥇","🥈","🥉"];
+  return `<div class="chips">${[["all","전체"],[10,"10대"],[20,"20대"],[30,"30대"]].map(c=>`<button class="chip ${c[0]===a?"on":""}" onclick="S.rk=${JSON.stringify(c[0])};draw()">${c[1]}</button>`).join("")}</div><div class="note" style="margin:-4px 2px 8px">${AGEN[a]}</div>`+(L.map((o,i)=>{const r=o.r;return `<div class="card ${i==0?"sel":""}">${nk(r)}<div class="row"><b><span class="medal">${mm[i]||(i+1)+"."}</span>${r.n}</b><button class="chip ${S.voted.includes(r.id)?"on":""}" onclick="vote('${r.id}')">👍 ${r.v.toLocaleString()}</button></div><div class="bar"><i style="width:${o.s/mx*100}%"></i></div><div>${items(r.it)}</div>${mdNote(r)}</div>`}).join("")||'<p class="note">아직 이 연령대 조합이 없어요.</p>');
+}
+VIEW[3][0]=rankV;
+function setAge(v){if(!S.user)return;S.user.age=v||null;sv("cuUser",S.user);draw();toast(v?v+"대로 설정했어요":"연령대를 비웠어요")}
+function saveNick(){const n=$("mn").value.trim();if(n.length<2||n.length>12){toast("닉네임은 2~12자예요");return}const o=S.user.nick;S.user.nick=n;S.mine.forEach(r=>{if(r.nick===o)r.nick=n});sv("cuUser",S.user);save();$("who").textContent=n+" 님";draw();toast("닉네임을 바꿨어요")}
+function delMine(id){S.mine=S.mine.filter(r=>r.id!==id);S.fav=S.fav.filter(x=>x!==id);save();draw();toast("삭제했어요")}
+function profileV(){
+  const u=S.user||{nick:"게스트",guest:true},mv=S.mine.reduce((a,r)=>a+r.v,0),np=S.posts.filter(p=>p.u===u.nick).length;
+  return `<div class="hero"><div><div style="font-size:.78rem;opacity:.85">👤 마이페이지</div><div style="font-size:1.4rem;margin:2px 0">${esc(u.nick)}</div><div style="font-size:.8rem;opacity:.92">${u.guest?"게스트로 둘러보는 중":esc(u.email||"")}${u.age?" · "+u.age+"대":""}</div></div>${drop(80)}</div>
+  <div class="minis" style="grid-template-columns:repeat(4,1fr)"><div class="mini"><b>${S.mine.length}</b>내 조합</div><div class="mini"><b>${mv.toLocaleString()}</b>받은 표</div><div class="mini"><b>${S.fav.length}</b>찜</div><div class="mini"><b>${np}</b>후기</div></div>
+  <div class="card"><h4>연령대</h4><div class="chips">${[10,20,30,0].map(v=>`<button class="chip ${(u.age||0)===v?"on":""}" onclick="setAge(${v})">${v?v+"대":"선택 안 함"}</button>`).join("")}</div><div class="note">내 조합이 연령대별 랭킹에 반영돼요</div></div>
+  <div class="card"><h4>닉네임 변경</h4><div class="row"><input type="text" id="mn" value="${esc(u.nick)}" maxlength="12"><button class="btn" onclick="saveNick()">저장</button></div></div>
+  ${u.guest?'<p class="note" style="text-align:center">로그인하면 내 이름으로 조합을 올려요</p><button class="btn" style="width:100%" onclick="logout()">로그인하러 가기</button>':'<button class="btn soft" style="width:100%" onclick="logout()">로그아웃</button>'}`;
+}
+function mineV(){
+  return S.mine.map(r=>{const t=tot(r.it);return `<div class="card">${nk(r)}<div class="row"><b>${esc(r.n)}</b><span class="pr">${won(t.pay)}</span></div><div>${items(r.it)}</div>${mdNote(r)}<div class="row" style="margin-top:8px"><span class="note">👍 ${r.v.toLocaleString()}</span><span><button class="chip" onclick="delMine('${r.id}')">삭제</button> <button class="btn soft" onclick="remix('${r.id}')">작업대로</button></span></div></div>`}).join("")||'<div class="card" style="text-align:center"><p class="note">아직 올린 조합이 없어요</p><button class="btn" onclick="go(2)">작업대에서 만들기</button></div>';
+}
+const favV=()=>R().filter(r=>S.fav.includes(r.id)).map(card).join("")||'<p class="note" style="text-align:center">찜한 조합이 없어요 ❤️</p>';
+VIEW.push([profileV,mineV,favV]);
+const emOk=e=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+function enter(fresh){
+  $("login").style.display="none";$("who").textContent=S.user.nick+" 님";draw();if(!ld("cuTour",0))showTour(0);
+  if(fresh)toast(S.user.guest?"게스트로 둘러보는 중이에요":S.user.nick+" 연구원님, 환영해요 🧪");
+}
+function doLogin(){
+  const n=$("ln").value.trim(),e=$("le").value.trim(),m=$("lerr");
+  if(n.length<2||n.length>12){m.textContent="닉네임은 2~12자로 입력해 주세요";return}
+  if(!emOk(e)){m.textContent="이메일 형식을 확인해 주세요";return}
+  S.user={nick:n,email:e};sv("cuUser",S.user);enter(true);
+}
+function guest(){S.user={nick:"게스트",guest:true};sv("cuUser",S.user);enter(true)}
+function logout(){S.user=null;try{localStorage.removeItem("cuUser")}catch(e){}
+  $("ln").value="";$("le").value="";$("lerr").textContent="";$("login").style.display="flex"}
+const HINT=[["","예산 슬라이더를 움직이면 그 돈으로 살 수 있는 조합이 나와요. 마음에 드는 조합은 [작업대로]를 눌러요"],["재료의 [담기] 버튼을 눌러 작업대 4칸을 채워보세요. 다 담으면 하단 [작업대] 탭으로 이동해요"],["빈 칸의 [+ 재료 담기]를 눌러 채우고, 아래에서 이름을 짓고 [광장에 올리기]를 눌러요","재료별 정가·행사가와 최종 결제 예상액을 확인해 보세요","일주일에 몇 번 먹을지 슬라이더로 정하면 한 달 절약액이 나와요"],["10·20·30대 칩을 눌러 연령대별 순위를 보고, 마음에 드는 조합에 👍 투표해요","두 조합 중 마음에 드는 쪽 카드를 눌러요. 끝까지 고르면 우승 조합이 나와요","후기를 쓰고 [등록]을 눌러요"],["위에서 조합을 고른 뒤 매장별 재고를 보고 [예약하기]를 눌러요","매장에 없는 재료는 [품절]을 누르면 대체 상품이 나와요"],["연령대를 고르면 내 조합이 연령대별 랭킹에 반영돼요","내가 올린 조합을 관리하는 곳이에요. [작업대로]로 다시 고칠 수 있어요","❤️로 찜한 조합이 여기 모여요"]];
+function hintV(){
+  if(S.hintOff)return"";const h=(HINT[S.tab]||[])[S.sub];
+  return h?`<div class="hint"><span>👆 ${h}</span><button aria-label="도움말 닫기" onclick="S.hintOff=1;sv('cuHint',1);draw()">✕</button></div>`:"";
+}
+VIEW[0][1]=()=>{if(!S.seenB){S.seenB=1;sv("cuSeen",1)}return budgetV()};
+function guideV(){
+  const d=[!!S.seenB,S.slots.some(Boolean)||S.mine.length>0,S.mine.length>0],n=d.indexOf(false);
+  const st=[["💰","예산 정하고 조합 고르기","가성비 공식 열기","go(0,1)"],["🧪","재료 담아 작업대 채우기","재료 담러 가기","go(1)"],["🏆","내 조합 광장에 올리기","작업대로 가기","go(2)"]];
+  if(n<0)return `<div class="card guide"><div class="row"><b>🎉 가이드 완료! 이제 타일에서 골라 써보세요</b><button class="chip" onclick="showTour(0)">다시 보기</button></div></div>`;
+  return `<div class="card guide"><div class="row"><b>🚀 처음이라면 이 순서로!</b><button class="chip" onclick="showTour(0)">설명 보기</button></div>`+st.map((s,i)=>`<div class="gs ${d[i]?"ok":i===n?"now":""}"><span class="gn">${d[i]?"✓":i+1}</span><span class="t">${s[0]} ${s[1]}</span>${i===n?`<button class="btn pulse" onclick="${s[3]}">${s[2]}</button>`:""}</div>`).join("")+`</div>`;
+}
+function showTour(i){
+  const P=[["💰","1. 예산으로 고르기","홈의 [가성비 공식]에서 예산을 정하면, 그 돈으로 먹을 수 있는 가성비 좋은 조합이 나와요."],["🧪","2. 작업대에서 만들기","[재료] 탭에서 [담기]를 누르면 작업대 4칸이 채워지고, 가격과 열량이 바로 계산돼요."],["🏆","3. 광장에 올리기","완성한 조합은 [광장에 올리기]로 공유해요. 👍을 많이 받으면 인기 조합이 돼요!"]];
+  i=i||0;if(!i){S.hintOff=0;sv("cuHint",0)}
+  let el=$("tour");if(!el){el=document.createElement("div");el.id="tour";document.querySelector(".phone").appendChild(el)}
+  const p=P[i],last=i===P.length-1;
+  el.innerHTML=`<div class="tbox" role="dialog" aria-label="사용 방법 안내">${drop(72)}<div class="tstep">${i+1} / ${P.length}</div><div class="tbig">${p[0]}</div><h3>${p[1]}</h3><p>${p[2]}</p><div class="dots">${P.map((_,j)=>`<i class="${j===i?"on":""}"></i>`).join("")}</div><button class="btn" onclick="${last?"endTour()":"showTour("+(i+1)+")"}">${last?"시작하기!":"다음"}</button><button class="skip" onclick="endTour()">건너뛰기</button></div>`;
+  el.style.display="flex";
+}
+function endTour(){sv("cuTour",1);const el=$("tour");if(el)el.style.display="none";draw()}
+if(S.user)enter(false);else draw();
+</script>
+</body>
+</html>
