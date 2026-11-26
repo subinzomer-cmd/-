@@ -159,7 +159,15 @@ main{background-image:radial-gradient(var(--ln) 1.4px,transparent 1.4px);backgro
 @keyframes serve{0%{transform:translateY(-60px) scale(.6) rotate(-8deg);opacity:0}100%{transform:none;opacity:1}}
 .stm{animation:stm 2.4s ease-in-out infinite}
 @keyframes stm{0%{opacity:0;transform:translateY(8px)}50%{opacity:.7}100%{opacity:0;transform:translateY(-14px)}}
-@media (prefers-reduced-motion:reduce){.fresh .dish,.stm{animation:none}}
+@media (prefers-reduced-motion:reduce){.fresh .dish,.stm{animation:none}}.visitor-count{
+  flex:none;
+  padding:8px 12px;
+  text-align:center;
+  color:var(--mut);
+  background:var(--card);
+  border-top:1px solid var(--ln);
+  font-size:.75rem;
+}
 </style>
 </head>
 <body>
