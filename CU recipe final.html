@@ -561,6 +561,46 @@ function showTour(i){
 }
 function endTour(){sv("cuTour",1);const el=$("tour");if(el)el.style.display="none";draw()}
 if(S.user)enter(false);else draw();
+  if(S.user)enter(false);else draw();
+
+const SUPABASE_URL = "https://gyumwjdvkudkwxaarcje.supabase.co";
+const SUPABASE_ANON_KEY = "복사한 공개 키";
+
+async function loadVisitorCount(){
+  const box=$("visitor-count");
+
+  try{
+    let visitorId=localStorage.getItem("cuVisitorId");
+
+    if(!visitorId){
+      visitorId=crypto.randomUUID();
+      localStorage.setItem("cuVisitorId",visitorId);
+    }
+
+    const response=await fetch(
+      `${SUPABASE_URL}/rest/v1/rpc/register_visitor`,
+      {
+        method:"POST",
+        headers:{
+          "apikey":SUPABASE_ANON_KEY,
+          "Authorization":`Bearer ${SUPABASE_ANON_KEY}`,
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({p_visitor_id:visitorId})
+      }
+    );
+
+    if(!response.ok) throw new Error(response.status);
+
+    const count=await response.json();
+    box.textContent=`누적 방문자 ${Number(count).toLocaleString("ko-KR")}명`;
+  }catch(error){
+    box.textContent="누적 방문자 수를 불러올 수 없어요.";
+    console.error(error);
+  }
+}
+
+loadVisitorCount();
 </script>
 </body>
 </html>
